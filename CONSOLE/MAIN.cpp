@@ -17,6 +17,7 @@
 #include <Wbemidl.h>
 #include <winternl.h>
 
+
 #pragma comment(lib, "wbemuuid.lib")
 #pragma warning(suppress : 4996)
 
@@ -99,7 +100,7 @@ void readfile(string filename) {
     std::cin.ignore(); //wait for keypress
     std::cout << "\033[2J\033[1;1H"; // clear
 }
-int main(int argc, char** argv) {
+int main(int argc, char** argv[]) {
     string filename;
     string text;
     string entry;
@@ -338,19 +339,24 @@ int main(int argc, char** argv) {
         }
         else if (choice == "ver") 
         {
-            
-            cout << "CONSOLE : DEV-VER\n BY MANIATICDEVS©\n";
-
-            OSVERSIONINFOEX info;
-            ZeroMemory(&info, sizeof(OSVERSIONINFOEX));
-            info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-            GetVersionEx((LPOSVERSIONINFO)&info);//info requires typecasting
-
-            printf("Windows version: %u.%u\n", info.dwMajorVersion, info.dwMinorVersion);
-
-            
+            cout << "CONSOLE : DEV-VER\n BY MANIATICDEVS©\n";            
         }
-        
+
+        else if (choice == "diskspc")
+        {
+            // Setup the DWORD variables.
+            ULARGE_INTEGER TotalNumberOfBytes;
+
+            // Lets construct the drive letter based on what the user passed.
+            /*std::string letter;
+            letter += driveLetter;
+            letter += ":\\";
+            letter += "\0";*/
+
+            if (GetDiskFreeSpaceExA(/*letter.c_str()*/NULL, NULL, &TotalNumberOfBytes, NULL)) {
+                std::cout << TotalNumberOfBytes.QuadPart << "\n";
+            }
+        }
         else {
             cout << "COMMAND NOT FOUND\n";
         }
