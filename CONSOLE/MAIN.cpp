@@ -17,7 +17,6 @@
 #include <Wbemidl.h>
 #include <winternl.h>
 
-
 #pragma comment(lib, "wbemuuid.lib")
 #pragma warning(suppress : 4996)
 
@@ -103,7 +102,7 @@ void readfile(string filename) {
 int main(int argc, char** argv[]) {
     string filename;
     string text;
-    string entry;
+    string entry = "C:/";
     string middlethingy = ":/";
     system("cls");
     string choice;
@@ -124,6 +123,7 @@ int main(int argc, char** argv[]) {
     *12 mkdir
     *13 quit
     *14 rfile
+    *15 ver
     */
     while (true)
     {
@@ -141,12 +141,13 @@ int main(int argc, char** argv[]) {
             cout << "cpyfile - copy file\n";
             cout << "datafile - shows file in bytes\n";
             cout << "dfile - delete file\n";
+            cout << "diskspc - shows how much space on the drive in bytes\n";
             cout << "efile - empty file\n";
             cout << "ls - views directories\n";
             cout << "mkdir - creates directories\n";
             cout << "quit - ends program (this one)\n";
             cout << "rfile - read from file\n";
-            cout << "ver - shows the version of this (and the os you are using\n";
+            cout << "ver - shows the version of this\n";
             cout << "[END ON HELP INDEX]\n";
         }
         else if (choice == "afile") {
@@ -263,6 +264,21 @@ int main(int argc, char** argv[]) {
                 cout << "File Not Found" << endl << endl;
             }
         }
+        else if (choice == "diskspc")
+        {
+            // Setup the DWORD variables.
+            ULARGE_INTEGER TotalNumberOfBytes;
+
+            // Lets construct the drive letter based on what the user passed.
+            int n = 1;
+            string letter = findSubstr(entry, n);
+            letter += ":/";
+            letter += "\0";
+
+            if (GetDiskFreeSpaceExA(letter.c_str(), NULL, &TotalNumberOfBytes, NULL)) {
+                std::cout << "Disk Space on " << letter.c_str() << " :\n" << TotalNumberOfBytes.QuadPart << " Bytes\n";
+            }
+        }
         else if (choice == "efile") 
         {
             system("cls");
@@ -278,14 +294,13 @@ int main(int argc, char** argv[]) {
             //cout << "Directory you want to see? e.g D:/, D:/directory\n(also dont mistype or you have to restart console :/)\n-> ";
             //cin.ignore() >> path;
             for (const auto& file : directory_iterator(entry))
-                cout << file.path() << endl;
-                
+                cout << file.path() << endl; 
         }
         else if (choice == "mkdir")
         {
             bool isFull = false;
             string uinput;
-            cout << "Do you want to make a DIR in fullpath or just here?\n (btw you can do /folder/folder/ if you choose just here)\n also you can only respond in 'fullpath' or 'here'";
+            cout << "Do you want to make a DIR in fullpath or just here?\n(btw you can do /folder/folder/ if you choose just here)\nalso you can only respond in 'fullpath' or 'here' -> ";
             cin >> uinput;
             std::for_each(uinput.begin(), uinput.end(), [](char& c) {c = ::tolower(c); });
             if (uinput == "fullpath") {
@@ -296,7 +311,7 @@ int main(int argc, char** argv[]) {
             }
             if (isFull == false) {
                 string folder;
-                cout << "what do you want your folder to be named / be?: -> ";
+                cout << "What do you want your folder to be named / be?: -> ";
                 cin >> folder;
                 string fullmkdir = entry + "/" + folder;
                 if (_mkdir(fullmkdir.c_str()) == -1)
@@ -339,24 +354,9 @@ int main(int argc, char** argv[]) {
         }
         else if (choice == "ver") 
         {
-            cout << "CONSOLE : DEV-VER\n BY MANIATICDEVS©\n";            
+            cout << "MDOS-CONSOLE : DEV-VER\nBY MANIATICDEVS©\n";            
         }
-
-        else if (choice == "diskspc")
-        {
-            // Setup the DWORD variables.
-            ULARGE_INTEGER TotalNumberOfBytes;
-
-            // Lets construct the drive letter based on what the user passed.
-            /*std::string letter;
-            letter += driveLetter;
-            letter += ":\\";
-            letter += "\0";*/
-
-            if (GetDiskFreeSpaceExA(/*letter.c_str()*/NULL, NULL, &TotalNumberOfBytes, NULL)) {
-                std::cout << TotalNumberOfBytes.QuadPart << "\n";
-            }
-        }
+        
         else {
             cout << "COMMAND NOT FOUND\n";
         }
