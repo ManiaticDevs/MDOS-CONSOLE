@@ -109,26 +109,29 @@ int main(int argc, char** argv[]) {
     
     cout << "What command would you like to perform?" << endl;
     /* COMMAND INDEX
-    *1 afile
-    *2 cd
-    *3 cfile
-    *4 chdir
-    *5 clear
-    *6 cpyfile
-    *7 datafile
-    *8 dfile
-    *9 efile
-    *10 help
-    *11 ls
-    *12 mkdir
-    *13 quit
-    *14 rfile
-    *15 ver
+    *afile
+    *cd
+    *cfile
+    *chdir
+    *clear
+    *cpyfile
+    *datafile
+    *dfile
+    *diskspc
+    *efile
+    *help
+    *ls
+    *mkdir
+    *quit
+    *rfile
+    *ver
     */
     while (true)
     {
         cout << entry + " " + "INPUT: -> ";
         cin >> choice;
+        cin.ignore();
+
         transform(choice.begin(), choice.end(), choice.begin(), ::tolower);
 
         if (choice == "help") {
@@ -300,7 +303,7 @@ int main(int argc, char** argv[]) {
         {
             bool isFull = false;
             string uinput;
-            cout << "Do you want to make a DIR in fullpath or just here?\n(btw you can do /folder/folder/ if you choose just here)\nalso you can only respond in 'fullpath' or 'here' -> ";
+            cout << "Do you want to make a DIR in fullpath or just here?\n(you can do /folder/folder/ if you choose just here)\nalso you can only respond in 'fullpath' or 'here' -> ";
             cin >> uinput;
             std::for_each(uinput.begin(), uinput.end(), [](char& c) {c = ::tolower(c); });
             if (uinput == "fullpath") {
@@ -318,11 +321,11 @@ int main(int argc, char** argv[]) {
                     cerr << " Error : " << strerror(errno) << endl;
 
                 else
-                    cout << "Folder Created\n";
+                    cout << "Folder Created!\n";
             }
             else if (isFull == true) {
                 string fullpath;
-                cout << "what do you want your folder to be named / be?: -> ";
+                cout << "Where do you want your folder to be? e.g C:/folder : -> ";
                 cin >> fullpath;
                 if (_mkdir(fullpath.c_str()) == -1)
                     cerr << " Error : " << strerror(errno) << endl;
@@ -354,9 +357,8 @@ int main(int argc, char** argv[]) {
         }
         else if (choice == "ver") 
         {
-            cout << "MDOS-CONSOLE : DEV-VER\nBY MANIATICDEVS©\n";            
+            cout << "MDOS-CONSOLE : DEV\nBY MANIATICDEVS\n";            
         }
-        
         else {
             cout << "COMMAND NOT FOUND\n";
         }
