@@ -8,6 +8,7 @@
 #include <direct.h>
 #include <cctype>
 #include <stdio.h>
+#include <cstdio>
 #include <stdlib.h>
 #include <windows.h>
 #include <algorithm>
@@ -16,13 +17,18 @@
 #include <comdef.h>
 #include <Wbemidl.h>
 #include <winternl.h>
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui.hpp>
 
 #pragma comment(lib, "wbemuuid.lib")
 #pragma warning(suppress : 4996)
 
+/*------------------------------------using section---------------------------------------*/
 using namespace std;
+using namespace cv;
 
 using std::cout; using std::cin; using std::endl; 
+using std::for_each;
 using std::string; using std::error_code;
 using std::istringstream; using std::cerr; 
 using std::filesystem::directory_iterator;
@@ -31,7 +37,7 @@ string findSubstr(std::string str, int n) {        // no-ref, no-const
     str.resize(n);
     return str;
 }
-
+/*-------------------------------------file editor functions---------------------------------------*/
 char keypress() {
     system("/bin/stty raw");
     char c;
@@ -41,7 +47,6 @@ char keypress() {
     system("/bin/stty cooked");
     return c;
 }
-
 void editfile(string filename) {
     std::cout << "\033[2J\033[1;1H";
     ofstream file(filename);
@@ -86,7 +91,6 @@ void editfile(string filename) {
         }
     } while (true);
 }
-
 void readfile(string filename) {
     std::cout << "\033[2J\033[1;1H"; //clear
     ifstream file(filename); //open file to read
@@ -99,7 +103,11 @@ void readfile(string filename) {
     std::cin.ignore(); //wait for keypress
     std::cout << "\033[2J\033[1;1H"; // clear
 }
-int main(int argc, char** argv[]) {
+
+/*------------------------------- encryption/decryption functions ------------------------------------ */
+
+
+int main() {
     string filename;
     string text;
     string entry = "C:/";
@@ -126,6 +134,7 @@ int main(int argc, char** argv[]) {
     *rfile
     *ver
     */
+/*---------------------------------------actual console-------------------------------------------*/
     while (true)
     {
         cout << entry + " " + "INPUT: -> ";
@@ -151,6 +160,7 @@ int main(int argc, char** argv[]) {
             cout << "quit - ends program (this one)\n";
             cout << "rfile - read from file\n";
             cout << "ver - shows the version of this\n";
+            cout << "lfile - load a file\n";
             cout << "[END ON HELP INDEX]\n";
         }
         else if (choice == "afile") {
@@ -359,6 +369,49 @@ int main(int argc, char** argv[]) {
         {
             cout << "MDOS-CONSOLE : DEV\nBY MANIATICDEVS\n";            
         }
+        else if (choice == "lfile") 
+        {
+            string batchnotfound = "is not recognized as an internal or external command, operable program or batch file.";
+            string uinput;
+            cout << "Do you want to do direct path or in current directory? (dpath or cdir) -> ";
+            cin >> uinput;
+            std::for_each(uinput.begin(), uinput.end(), [](char& c) {c = tolower(c); });
+            string file;
+            string filed;
+            bool isDirect;
+            if (uinput == "dpath")
+            {
+                isDirect = true;
+                cout << "Enter directory with name e.g C:/path/to/file -> ";
+                cin >> file;
+                system(file.c_str());
+            }
+            else if (uinput == "cdir") 
+            {
+                isDirect = false;
+                cout << "Enter file name that is in your current directory -> ";
+                cin >> filed;
+                string fullpath = entry + "/" + filed;
+                system(fullpath.c_str());
+            }
+            //if (.find(s2) != std::string::npos) {
+                //std::cout << "found!" << '\n';
+            //}
+
+            if (isDirect) {
+                cout << "Successfully loaded " << file << endl;
+            }
+            else {
+                cout << "Successfully loaded " << filed << endl;
+            }
+
+            
+        }
+        /*else if (choice == "test") {
+            string str;
+            getline(cin, str);
+            cout << str << endl;
+        }*/
         else {
             cout << "COMMAND NOT FOUND\n";
         }
