@@ -11,15 +11,20 @@
 #include <cstdio>
 #include <stdlib.h>
 #include <windows.h>
+#include <urlmon.h>
 #include <algorithm>
 #define _WIN32_DCOM
 #include <iostream>
 #include <comdef.h>
+#include <tchar.h>
 #include <Wbemidl.h>
 #include <winternl.h>
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
+#include <Python.h>
 
+#pragma comment(lib, "urlmon.lib")
+#pragma comment(lib,"wininet.lib")
 #pragma comment(lib, "wbemuuid.lib")
 #pragma warning(suppress : 4996)
 
@@ -107,7 +112,7 @@ void readfile(string filename) {
 /*------------------------------- encryption/decryption functions ------------------------------------ */
 
 
-int main() {
+int main(char**) {
     string filename;
     string text;
     string entry = "C:/";
@@ -406,6 +411,10 @@ int main() {
             }
 
             
+        }
+        else if (choice == "chappie") {
+        system("py chat.py");
+
         }
         /*else if (choice == "test") {
             string str;
