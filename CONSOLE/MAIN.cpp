@@ -166,6 +166,7 @@ int main(char**) {
             cout << "rfile - read from file\n";
             cout << "ver - shows the version of this\n";
             cout << "lfile - load a file\n";
+            cout << "chappie - a deep learning chatbot you can talk to. (i guess)\n";
             cout << "[END ON HELP INDEX]\n";
         }
         else if (choice == "afile") {
@@ -413,8 +414,10 @@ int main(char**) {
             
         }
         else if (choice == "chappie") {
-        system("py chat.py");
-
+            system("cls");
+            system("py chat.py");
+            system("cls");
+            cout << "What command would you like to perform?" << endl;
         }
         /*else if (choice == "test") {
             string str;

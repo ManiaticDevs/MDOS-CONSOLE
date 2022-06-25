@@ -30,11 +30,12 @@ def chat():
     # parameters
     max_len = 20
     os.system('cls')
-    print(Fore.YELLOW + "Start messaging with the bot (type quit to stop)!" + Style.RESET_ALL)
+    print(Fore.YELLOW + "Start messaging with Chappie (type quit to stop)!" + Style.RESET_ALL)
+    print(Fore.GREEN + "Chappie :" + Style.RESET_ALL + " Hello! I'm Chappie! Note that my responses are limited!")
     
 
     while True:
-        print(Fore.LIGHTBLUE_EX + "User: " + Style.RESET_ALL, end="")
+        print(Fore.LIGHTBLUE_EX + "User : " + Style.RESET_ALL, end="")
         inp = input()
         if inp.lower() == "quit":
             break
@@ -44,7 +45,7 @@ def chat():
 
         for i in data['intents']:
             if i['tag'] == tag:
-                print(Fore.GREEN + "Chappie:" + Style.RESET_ALL , np.random.choice(i['responses']))
+                print(Fore.GREEN + "Chappie :" + Style.RESET_ALL , np.random.choice(i['responses']))
 
         # print(Fore.GREEN + "ChatBot:" + Style.RESET_ALL,random.choice(responses))
         
