@@ -45,8 +45,10 @@ def chat():
 
         for i in data['intents']:
             if i['tag'] == tag:
-                print(Fore.GREEN + "Chappie :" + Style.RESET_ALL , np.random.choice(i['responses']))
-
+                if np.random.choice(i['responses']) == "open img":
+                    os.system('brainlet.png')
+                else:
+                     print(Fore.GREEN + "Chappie :" + Style.RESET_ALL, np.random.choice(i['responses']))
         # print(Fore.GREEN + "ChatBot:" + Style.RESET_ALL,random.choice(responses))
         
 chat()

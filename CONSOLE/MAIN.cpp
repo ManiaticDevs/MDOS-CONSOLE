@@ -19,18 +19,18 @@
 #include <tchar.h>
 #include <Wbemidl.h>
 #include <winternl.h>
-#include <opencv2/opencv.hpp>
-#include <opencv2/highgui.hpp>
 #include <Python.h>
+#include <discord_rpc.h>
+#include <discord_register.h>
 
 #pragma comment(lib, "urlmon.lib")
+#pragma comment(lib, "discord-rpc.lib")
 #pragma comment(lib,"wininet.lib")
 #pragma comment(lib, "wbemuuid.lib")
 #pragma warning(suppress : 4996)
 
 /*------------------------------------using section---------------------------------------*/
 using namespace std;
-using namespace cv;
 
 using std::cout; using std::cin; using std::endl; 
 using std::for_each;
@@ -109,10 +109,44 @@ void readfile(string filename) {
     std::cout << "\033[2J\033[1;1H"; // clear
 }
 
-/*------------------------------- encryption/decryption functions ------------------------------------ */
+/*------------------------------- discord functions ------------------------------------ */
+DiscordRichPresence discordPresence;
+//const char* token = ""; //not necessary
+void UpdatePresence(string state, string details)
+{
+    DiscordRichPresence discordPresence;
+    memset(&discordPresence, 0, sizeof(discordPresence));
+    discordPresence.state = state.c_str();
+    discordPresence.details = details.c_str();
+    discordPresence.startTimestamp = time(0); //initlialize time
+    discordPresence.largeImageKey = "desktop"; //large image file name no extension
+    discordPresence.largeImageText = "Your Text";
+    discordPresence.smallImageKey = "small image"; //same as large
+    discordPresence.smallImageText = "Your Text"; //displays on hover
+    Discord_UpdatePresence(&discordPresence); //do the do
+}
 
+void Initialize()
+{
+    DiscordEventHandlers handlers;
+    memset(&handlers, 0, sizeof(handlers));
+    Discord_Initialize("990264433097998336", &handlers, TRUE, nullptr);
+}
+
+void Shutdown()
+{
+    Discord_Shutdown(); //goodbye
+}
+
+void DiscordMain() //call in dllmain or hook w/e
+{
+    Initialize();
+    UpdatePresence("No Commands running.", "Opened Console");
+}
+/*-----------------------------main functions------------------------------------*/
 
 int main(char**) {
+    DiscordMain();
     string filename;
     string text;
     string entry = "C:/";
@@ -149,6 +183,7 @@ int main(char**) {
         transform(choice.begin(), choice.end(), choice.begin(), ::tolower);
 
         if (choice == "help") {
+            UpdatePresence("Command \"help\" ran", "Using Console");
             cout << "[START OF HELP INDEX]\n";
             cout << "help - to bring up this\n";
             cout << "afile - add to file\n";
@@ -170,6 +205,7 @@ int main(char**) {
             cout << "[END ON HELP INDEX]\n";
         }
         else if (choice == "afile") {
+            UpdatePresence("Command \"afile\" ran", "Using Console");
             system("cls");
             text = "";
             cout << endl << "Enter name of file: ";
@@ -201,6 +237,7 @@ int main(char**) {
             cout << "File Updated Successfully" << endl << endl;
         }
         else if (choice == "cfile") {
+            UpdatePresence("Command \"cfile\" ran", "Using Console");
             system("cls");
             cout << endl << "Enter name of file: ";
             cin.ignore();
@@ -210,6 +247,7 @@ int main(char**) {
             cout << "File Created Successfully" << endl << endl;
         }
         else if (choice == "chdir") {
+            UpdatePresence("Command \"chdir\" ran", "Using Console");
             if (choice.find(middlethingy) != string::npos) {
                 cout << "Successfully changed to " << entry << endl;
             }
@@ -224,10 +262,12 @@ int main(char**) {
             _chdir(entry.c_str());
         }
         else if (choice == "clear") {
+            UpdatePresence("Command \"clear\" ran", "Using Console");
             system("cls");
             cout << "What command would you like to perform?" << endl;
         }
         else if (choice == "cpyfile") {
+            UpdatePresence("Command \"cpyfile\" ran", "Using Console");
             system("cls");
             text = "";
             cout << endl << "Enter name of file to copy from: ";
@@ -249,6 +289,7 @@ int main(char**) {
             cout << "File Copied Successfully" << endl << endl;
         }
         else if (choice == "datafile") {
+        UpdatePresence("Command \"datafile\" ran", "Using Console");
             string path;
             error_code ec{};
 
@@ -263,6 +304,7 @@ int main(char**) {
                 << "' message: " << ec.message() << endl;
             }
         else if (choice == "deldir") {
+        UpdatePresence("Command \"deldir\" ran", "Using Console");
             string folder;
             cout << "Name of directory you want to delete? : ";
             cin >> folder;
@@ -271,6 +313,7 @@ int main(char**) {
         }
         else if (choice == "dfile") 
         {
+        UpdatePresence("Command \"dfile\" ran", "Using Console");
             system("cls");
             cout << endl << "Enter name of file: ";
             cin >> filename;
@@ -285,6 +328,7 @@ int main(char**) {
         }
         else if (choice == "diskspc")
         {
+        UpdatePresence("Command \"diskspc\" ran", "Using Console");
             // Setup the DWORD variables.
             ULARGE_INTEGER TotalNumberOfBytes;
 
@@ -300,6 +344,7 @@ int main(char**) {
         }
         else if (choice == "efile") 
         {
+        UpdatePresence("Command \"efile\" ran", "Using Console");
             system("cls");
             cout << endl << "Enter name of file: ";
             cin >> filename;
@@ -310,6 +355,7 @@ int main(char**) {
             cout << "File Emptied Successfully" << endl << endl;
         }
         else if (choice == "ls") {
+        UpdatePresence("Command \"ls\" ran", "Using Console");
             //cout << "Directory you want to see? e.g D:/, D:/directory\n(also dont mistype or you have to restart console :/)\n-> ";
             //cin.ignore() >> path;
             for (const auto& file : directory_iterator(entry))
@@ -317,6 +363,7 @@ int main(char**) {
         }
         else if (choice == "mkdir")
         {
+            UpdatePresence("Command \"mkdir\" ran", "Using Console");
             bool isFull = false;
             string uinput;
             cout << "Do you want to make a DIR in fullpath or just here?\n(you can do /folder/folder/ if you choose just here)\nalso you can only respond in 'fullpath' or 'here' -> ";
@@ -352,10 +399,12 @@ int main(char**) {
         }  
         else if (choice == "quit")
         {
+            UpdatePresence("Quitted Console", "Using Console");
             break;
         }
         else if (choice == "rfile") 
         {
+            UpdatePresence("Command \"rfile\" ran", "Using Console");
             system("cls");
             text = "";
             cout << endl << "Enter name of file: ";
@@ -373,10 +422,12 @@ int main(char**) {
         }
         else if (choice == "ver") 
         {
+        UpdatePresence("Command \"ver\" ran", "Using Console");
             cout << "MDOS-CONSOLE : DEV\nBY MANIATICDEVS\n";            
         }
         else if (choice == "lfile") 
         {
+            UpdatePresence("Command \"lfile\" ran", "Using Console");
             string batchnotfound = "is not recognized as an internal or external command, operable program or batch file.";
             string uinput;
             cout << "Do you want to do direct path or in current directory? (dpath or cdir) -> ";
@@ -414,10 +465,14 @@ int main(char**) {
             
         }
         else if (choice == "chappie") {
+        system("py get_pip.py --user");
+        system("pip install -r requirements.txt");
+        UpdatePresence("Chatting with Chappie", "Using Console");
             system("cls");
             system("py chat.py");
             system("cls");
             cout << "What command would you like to perform?" << endl;
+            UpdatePresence("Idle in Console", "Idle in Console");
         }
         /*else if (choice == "test") {
             string str;

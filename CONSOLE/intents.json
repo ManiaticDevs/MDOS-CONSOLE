@@ -19,6 +19,10 @@
      "patterns": ["How are you?", "How do you feel?", "How you doing?" ],
      "responses": ["Alright I guess.", "Okay is what I feel", "Good."]
     },
+    {"tag": "test",
+     "patterns": ["can you do a test for me?", "test", "test for me please" ],
+     "responses": ["open img"]
+    },
     {"tag": "awareness",
      "patterns": ["Thats cool!", "That's actually kinda nice!", "Wow that's a cool name!", "thats a cool name"],
      "responses": ["I know right?", "It's quite nice!", "Some people named the 'ManiaticDevs' named me that!"]
