@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Chappie Files">
-      <UniqueIdentifier>{60f01d36-5168-43ed-ad3b-811e28b1b33e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Discord RPC Files">
       <UniqueIdentifier>{b67d4090-1ae3-45a0-b53b-37902b374615}</UniqueIdentifier>
     </Filter>
@@ -47,24 +44,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="chat.py">
-      <Filter>Chappie Files</Filter>
-    </None>
-    <None Include="chat.spec">
-      <Filter>Chappie Files</Filter>
-    </None>
-    <None Include="intents.json">
-      <Filter>Chappie Files</Filter>
-    </None>
-    <None Include="label_encoder.pickle">
-      <Filter>Chappie Files</Filter>
-    </None>
-    <None Include="tokenizer.pickle">
-      <Filter>Chappie Files</Filter>
-    </None>
-    <None Include="train.py">
-      <Filter>Chappie Files</Filter>
-    </None>
     <None Include="discord-rpc\bin\send-presence.exe">
       <Filter>Discord RPC Files</Filter>
     </None>

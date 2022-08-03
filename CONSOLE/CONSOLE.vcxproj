@@ -33,13 +33,7 @@
     <Image Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="chat.py" />
-    <None Include="chat.spec" />
     <None Include="discord-rpc\bin\send-presence.exe" />
-    <None Include="intents.json" />
-    <None Include="label_encoder.pickle" />
-    <None Include="tokenizer.pickle" />
-    <None Include="train.py" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="discord-rpc\lib\discord-rpc.lib" />

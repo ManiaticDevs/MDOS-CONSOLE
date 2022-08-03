@@ -185,15 +185,15 @@ int main(char**) {
         if (choice == "help") {
             UpdatePresence("Command \"help\" ran", "Using Console");
             cout << "[START OF HELP INDEX]\n";
-            cout << "help - to bring up this\n";
-            cout << "afile - add to file\n";
-            cout << "cfile - create files\n";
-            cout << "chdir - to change directories\n";
-            cout << "clear - clears console\n";
-            cout << "cpyfile - copy file\n";
-            cout << "datafile - shows file in bytes\n";
-            cout << "dfile - delete file\n";
-            cout << "diskspc - shows how much space on the drive in bytes\n";
+            cout << "help           to bring up this\n";
+            cout << "afile          add to file\n";
+            cout << "cfile          create files\n";
+            cout << "chdir          to change directories, cd also works\n";
+            cout << "clear          clears console\n";
+            cout << "cpyfile        copy file\n";
+            cout << "datafile           shows file in bytes\n";
+            cout << "dfile          delete file\n";
+            cout << "diskspc            shows how much space on the drive in bytes\n";
             cout << "efile - empty file\n";
             cout << "ls - views directories\n";
             cout << "mkdir - creates directories\n";
@@ -201,7 +201,6 @@ int main(char**) {
             cout << "rfile - read from file\n";
             cout << "ver - shows the version of this\n";
             cout << "lfile - load a file\n";
-            cout << "chappie - a deep learning chatbot you can talk to. (i guess)\n";
             cout << "[END ON HELP INDEX]\n";
         }
         else if (choice == "afile") {
@@ -246,7 +245,7 @@ int main(char**) {
             myfile.close();
             cout << "File Created Successfully" << endl << endl;
         }
-        else if (choice == "chdir") {
+        else if (choice == "chdir" || choice == "cd") {
             UpdatePresence("Command \"chdir\" ran", "Using Console");
             if (choice.find(middlethingy) != string::npos) {
                 cout << "Successfully changed to " << entry << endl;
@@ -339,7 +338,8 @@ int main(char**) {
             letter += "\0";
 
             if (GetDiskFreeSpaceExA(letter.c_str(), NULL, &TotalNumberOfBytes, NULL)) {
-                std::cout << "Disk Space on " << letter.c_str() << " :\n" << TotalNumberOfBytes.QuadPart << " Bytes\n";
+                ULONGLONG num = TotalNumberOfBytes.QuadPart / 1000000000;
+                cout << "Disk Space on " << letter.c_str() << " :\n" << num << " Gigabytes\n";
             }
         }
         else if (choice == "efile") 
@@ -399,7 +399,7 @@ int main(char**) {
         }  
         else if (choice == "quit")
         {
-            UpdatePresence("Quitted Console", "Using Console");
+            UpdatePresence("Quitted Console", "Quitting Console");
             break;
         }
         else if (choice == "rfile") 
@@ -422,7 +422,7 @@ int main(char**) {
         }
         else if (choice == "ver") 
         {
-        UpdatePresence("Command \"ver\" ran", "Using Console");
+            UpdatePresence("Command \"ver\" ran", "Using Console");
             cout << "MDOS-CONSOLE : DEV\nBY MANIATICDEVS\n";            
         }
         else if (choice == "lfile") 
@@ -464,7 +464,7 @@ int main(char**) {
 
             
         }
-        else if (choice == "chappie") {
+        /*else if (choice == "chappie") {
         system("py get_pip.py --user");
         system("pip install -r requirements.txt");
         UpdatePresence("Chatting with Chappie", "Using Console");
@@ -474,7 +474,7 @@ int main(char**) {
             cout << "What command would you like to perform?" << endl;
             UpdatePresence("Idle in Console", "Idle in Console");
         }
-        /*else if (choice == "test") {
+        else if (choice == "test") {
             string str;
             getline(cin, str);
             cout << str << endl;
